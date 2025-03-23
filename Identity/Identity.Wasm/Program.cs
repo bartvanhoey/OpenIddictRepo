@@ -21,7 +21,7 @@ builder.Services.AddScoped<IRegisterService, RegisterService>();
 builder.Services.AddHttpClient("AuthorityHttpClient",
         client =>
         {
-            client.BaseAddress = new Uri("https://localhost:7067/");
+            client.BaseAddress = new Uri("https://localhost:7000/");
         });
     // .AddHttpMessageHandler<CustomAuthenticationHandler>();
 

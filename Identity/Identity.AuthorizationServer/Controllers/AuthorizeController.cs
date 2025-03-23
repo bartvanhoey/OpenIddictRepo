@@ -207,12 +207,26 @@ public class AuthorizationController : Controller
 
             // Add Custom claims => sub claims is mandatory
             identity.AddClaim(new Claim(OpenIddictConstants.Claims.Subject, user.Id));
+            identity.AddClaim(new Claim(OpenIddictConstants.Claims.PreferredUsername, user.Email ?? user.UserName));
             identity.AddClaim(new Claim(OpenIddictConstants.Claims.Audience, "Resourse"));
             identity.AddClaim(new Claim("some-claim", "some-value"));
 
             // Setting destinations of claims i.e. identity token or access token
-            identity.SetDestinations(x => GetDestinations(x, identity));
+            
+            // When using this statement, custom claims not included in AccessToken
+             // identity.SetDestinations(x => GetDestinations(x, identity));
+ 
+            identity.SetDestinations(static claim => claim.Type switch
+            {
+                // Allow the "name" claim to be stored in both the access and identity tokens
+                // when the "profile" scope was granted (by calling principal.SetScopes(...)).
+                OpenIddictConstants.Claims.Name when (claim.Subject ?? throw new InvalidOperationException()).HasScope(
+                        OpenIddictConstants.Permissions.Scopes.Profile)
+                    => [OpenIddictConstants.Destinations.AccessToken, OpenIddictConstants.Destinations.IdentityToken],
 
+                // Otherwise, only store the claim in the access tokens.
+                _ => [OpenIddictConstants.Destinations.AccessToken]
+            });
 
             // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
             var signInResult = SignIn(new ClaimsPrincipal(identity), properties,
