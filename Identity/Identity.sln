@@ -5,6 +5,10 @@ VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.AuthorizationServer", "Identity.AuthorizationServer\Identity.AuthorizationServer.csproj", "{11E3144C-699A-4390-8F52-1152B2741A29}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Wasm", "Identity.Wasm\Identity.Wasm.csproj", "{FBE09946-9179-49C2-BD97-6B0FBAFB3B32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Shared", "Identity.Shared\Identity.Shared.csproj", "{C14E33FC-CBE9-4446-BE40-544400E1E91E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{11E3144C-699A-4390-8F52-1152B2741A29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11E3144C-699A-4390-8F52-1152B2741A29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11E3144C-699A-4390-8F52-1152B2741A29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBE09946-9179-49C2-BD97-6B0FBAFB3B32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBE09946-9179-49C2-BD97-6B0FBAFB3B32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBE09946-9179-49C2-BD97-6B0FBAFB3B32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBE09946-9179-49C2-BD97-6B0FBAFB3B32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C14E33FC-CBE9-4446-BE40-544400E1E91E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C14E33FC-CBE9-4446-BE40-544400E1E91E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C14E33FC-CBE9-4446-BE40-544400E1E91E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C14E33FC-CBE9-4446-BE40-544400E1E91E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

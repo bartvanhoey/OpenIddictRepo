@@ -12,18 +12,18 @@ namespace Identity.AuthorizationServer
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+            builder.Services.AddControllers();
             
             builder.SetupDatabase();
 
             builder.SetupIdentity();    
 
             builder.SetupOpenIddict();
+            
+            builder.AddCorsPolicy();
 
             // builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             //     .AddCookie(options => { options.LoginPath = "/authenticate"; });
@@ -64,13 +64,19 @@ namespace Identity.AuthorizationServer
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            
+            app.MapControllers();
 
             app.MapStaticAssets();
             app.MapRazorPages()
                .WithStaticAssets();
             
-            // app.MapDefaultControllerRoute();
+            app.UseCors(x => x.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+            );
 
             app.Run();
         }

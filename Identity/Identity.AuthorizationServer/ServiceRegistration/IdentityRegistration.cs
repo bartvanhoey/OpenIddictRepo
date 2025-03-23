@@ -7,5 +7,8 @@ public static class IdentityRegistration
 {
     public static void SetupIdentity(this WebApplicationBuilder builder) =>
         builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
+            // .AddSignInManager()
+            
+            .AddDefaultUI()
             .AddDefaultTokenProviders();
 }

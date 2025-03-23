@@ -1,52 +1,47 @@
 using Identity.AuthorizationServer.Data;
+using Identity.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.AuthorizationServer.Controllers
    {
-      [Route("api/[controller]")]
+      [Route("api/registration")]
       [ApiController]
-      public class RegistrationController : ControllerBase
+      public class RegistrationController(
+         UserManager<ApplicationUser> userManager, ApplicationDbContext applicationDbContext) : ControllerBase
       {
-         private readonly UserManager<ApplicationUser> _userManager;
-         private readonly ApplicationDbContext _applicationDbContext;
          private static bool _databaseChecked;
-
-         public RegistrationController(
-               UserManager<ApplicationUser> userManager,
-               ApplicationDbContext applicationDbContext)
-         {
-               _userManager = userManager;
-               _applicationDbContext = applicationDbContext;
-         }
-
-         //
-         // POST: /Account/Register
-         [HttpPost]
+         
+         [HttpPost()]
+         
          [AllowAnonymous]
-         public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
+         public async Task<IActionResult> Register(RegisterInputModel model)
          {
-               EnsureDatabaseCreated(_applicationDbContext);
-               if (ModelState.IsValid)
-               {
-                  var user = await _userManager.FindByNameAsync(model.Email);
-                  if (user != null)
-                  {
-                     return StatusCode(StatusCodes.Status409Conflict);
-                  }
+               EnsureDatabaseCreated(applicationDbContext);
+               if (!ModelState.IsValid) return BadRequest(ModelState);
+               
+               var user = await userManager.FindByNameAsync(model.Email);
+               if (user != null) return StatusCode(StatusCodes.Status409Conflict);
 
-                  user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-                  var result = await _userManager.CreateAsync(user, model.Password);
-                  if (result.Succeeded)
-                  {
-                     return Ok();
-                  }
-                  AddErrors(result);
+               user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+               var result = await userManager.CreateAsync(user, model.Password);
+               if (result.Succeeded)
+               {
+                  return Ok();
                }
+               AddErrors(result);
 
                // If we got this far, something failed.
                return BadRequest(ModelState);
+         }
+         
+         [HttpGet]
+         [AllowAnonymous]
+         [Route("get-hello-world")]
+         public string GetHelloWorld()
+         {
+            return "hello world";
          }
 
          #region Helpers

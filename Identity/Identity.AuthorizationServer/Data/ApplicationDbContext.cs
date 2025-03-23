@@ -10,6 +10,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         
     }
+    
+    public DbSet<ApplicationUser> AspNetUsers { get; set; }
 }
 
 public class ApplicationUser : IdentityUser

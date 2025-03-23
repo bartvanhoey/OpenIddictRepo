@@ -15,5 +15,7 @@ public static class DatabaseRegistration
             o.UseSqlServer(connectionString);
             o.UseOpenIddict();
         });
+        
+
     }
 }
